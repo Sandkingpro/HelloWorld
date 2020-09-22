@@ -1,343 +1,321 @@
 ﻿using System;
 using System.Linq;
-
-namespace massiv
+//Вариант 3
+namespace Array
 {
-    public class massivs
+    public class Array
     {
-
         public int k;//количество элементов
         public string[] elem;//обращение к элементу
-        public massivs createmassiv()
+        public Array CreateArray()
         {
             Console.WriteLine("Введите количество ячеек массива");
             try
             {
                 this.k = Convert.ToInt32(Console.ReadLine());
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 Console.WriteLine("Вы ввели не целое число");
-                return createmassiv();
+                return CreateArray();
             }
             this.elem = new string[k];
             for (int i = 0; i < k; i++)
             {
-                Console.Write("Элемент{0}=", i+1);
+                Console.Write("Элемент{0}=", i + 1);
                 this.elem[i] = Console.ReadLine();
             }
             return this;
-
         }
-        static void printmassiv(massivs Massiv)
+        static void PrintArray(Array array)
         {
-            for(int i=0;i<Massiv.k;i++)
+            for (int i = 0; i < array.k; i++)
             {
-                Console.WriteLine("Элемент{0}={1} ", i + 1, Massiv.elem[i]);
+                Console.WriteLine("Элемент{0}={1} ", i + 1, array.elem[i]);
             }
         }
-        static massivs toindexprint(massivs Massiv)
+        static Array ToIndexPrint(Array array)
         {
             try
             {
                 Console.WriteLine("Введите индекс не превышающий количество ячеек в массиве");
                 int i = Convert.ToInt32(Console.ReadLine());
-                if(i>=Massiv.k)
+                if (i >= array.k)
                 {
-                    return toindexprint(Massiv);
+                    return ToIndexPrint(array);
                 }
-                Console.WriteLine("Элемент{0}={1} ", i + 1, Massiv.elem[i]);
+                Console.WriteLine("Элемент{0}={1} ", i + 1, array.elem[i]);
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 Console.WriteLine("Вы ввели неправильно");
-                return toindexprint(Massiv);
+                return ToIndexPrint(array);
             }
             return null;
-            
         }
-        static void tolenprint(massivs Massiv)
+        static void TolenPrint(Array array)
         {
             Console.Write("Введите начальную комбинацию символов:");
             string len = Console.ReadLine();
-            int j = len.Length;
-            for (int i=0;i<Massiv.k;i++)
+            for (int i = 0; i < array.k; i++)
             {
-                if (Massiv.elem[i].StartsWith(len))
+                if (array.elem[i].StartsWith(len))
                 {
-                    Console.WriteLine("Элемент{0}={1} ", i + 1, Massiv.elem[i]);
+                    Console.WriteLine("Элемент{0}={1} ", i + 1, array.elem[i]);
                 }
             }
-               
         }
-        static void intersection(massivs Massiv1,massivs Massiv2)
+        static void Intersection(Array array1, Array array2)
         {
-            var Massiv = Massiv1.elem.Intersect(Massiv2.elem);
+            var array = array1.elem.Intersect(array2.elem);
             Console.WriteLine("Пересечение массивов:");
-            foreach (string s in Massiv)
+            foreach (string s in array)
             {
-                
-                Console.WriteLine( s);
-                
+                Console.WriteLine(s);
             }
-                
+
         }
-        static void union(massivs Massiv1,massivs Massiv2)
+        static void Union(Array array1, Array array2)
         {
-            var Massiv = Massiv1.elem.Union(Massiv2.elem);
-            Console.WriteLine("Объединение массивов массивов:");
-            foreach (string s in Massiv)
+            var array = array1.elem.Union(array2.elem);
+            Console.WriteLine("Объединение массива");
+            foreach (string s in array)
             {
-                
                 Console.WriteLine(s);
             }
         }
-        static void clutch(massivs Massiv1,massivs Massiv2)
+        static void Clutch(Array array1, Array array2)
         {
-            massivs Massiv = new massivs();
-            if( Massiv1.k>=Massiv2.k)
+            Array array = new Array();
+            if (array1.k >= array2.k)
             {
-                Massiv.k = Massiv1.k;
+                array.k = array1.k;
             }
             else
             {
-                Massiv.k = Massiv2.k;
+                array.k = array2.k;
             }
-            Massiv.elem = new string[Massiv.k];
-            if(Massiv1.k>Massiv2.k)
+            array.elem = new string[array.k];
+            if (array1.k > array2.k)
             {
-                for(int i=0;i<Massiv2.k;i++)
+                for (int i = 0; i < array2.k; i++)
                 {
-                    Massiv.elem[i] = Massiv1.elem[i] + Massiv2.elem[i];
+                    array.elem[i] = array1.elem[i] + array2.elem[i];
                 }
-                for(int i=Massiv2.k;i<Massiv1.k;i++)
+                for (int i = array2.k; i < array1.k; i++)
                 {
-                    Massiv.elem[i] = Massiv1.elem[i];
-                }
-            }
-            if(Massiv1.k<Massiv2.k)
-            {
-                for (int i = 0; i < Massiv1.k; i++)
-                {
-                    Massiv.elem[i] = Massiv1.elem[i] + Massiv2.elem[i];
-                }
-                for (int i = Massiv1.k; i < Massiv2.k; i++)
-                {
-                    Massiv.elem[i] = Massiv2.elem[i];
+                    array.elem[i] = array1.elem[i];
                 }
             }
-            if(Massiv1.k==Massiv2.k)
+            if (array1.k < array2.k)
             {
-                for (int i = 0; i < Massiv1.k; i++)
+                for (int i = 0; i < array1.k; i++)
                 {
-                    Massiv.elem[i] = Massiv1.elem[i] + Massiv2.elem[i];
+                    array.elem[i] = array1.elem[i] + array2.elem[i];
+                }
+                for (int i = array1.k; i < array2.k; i++)
+                {
+                    array.elem[i] = array2.elem[i];
+                }
+            }
+            if (array1.k == array2.k)
+            {
+                for (int i = 0; i < array1.k; i++)
+                {
+                    array.elem[i] = array1.elem[i] + array2.elem[i];
                 }
             }
             Console.WriteLine("Поэлементное сцепение массивов:");
-            foreach(string s in Massiv.elem)
+            foreach (string s in array.elem)
             {
                 Console.WriteLine(s);
             }
         }
-        static massivs massiv1()
+        static Array Menu1()
         {
-           
-            try
+            Array array = new Array();
+            array.CreateArray();
+            while (true)
             {
-                Console.WriteLine("Нужно вводить числа с экрана");
-                Console.WriteLine("Введите:");
-                Console.WriteLine("1-Создать массив");
-                Console.WriteLine("0-для выхода из программы");
-                int a = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Введите данные с экрана:");
+                Console.WriteLine("1-Вывести первый массив.");
+                Console.WriteLine("2-Вывести элемент по его индексу у первого массива.");
+                Console.WriteLine("3-Вывести элементы первого массива по начальной комбинации символов.");
+                Console.WriteLine("0-перейти в следущее меню.");
+                string a = Console.ReadLine();
+                if (a == "1")
+                {
+                    PrintArray(array);
+                }
+                else if (a == "2")
+                {
+                    ToIndexPrint(array);
+                }
+                else if (a == "3")
+                {
+                    TolenPrint(array);
+                }
+                else if (a == "0")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Попробуйте ещё раз.");
+                }
+            }
+            return array;
+        }
+        static Array Menu2()
+        {
+            Array array = new Array();
+            array.CreateArray();
+            while (true)
+            {
+                Console.WriteLine("Введите данные с экрана:");
+                Console.WriteLine("1-Вывести второй массив.");
+                Console.WriteLine("2-Вывести элемент по его индексу у второго массива.");
+                Console.WriteLine("3-Вывести элементы второго массива по начальной комбинации символов.");
+                Console.WriteLine("0-перейти в следущее меню.");
+                string a = Console.ReadLine();
+                if (a == "1")
+                {
+                    PrintArray(array);
+                }
+                else if (a == "2")
+                {
+                    ToIndexPrint(array);
+                }
+                else if (a == "3")
+                {
+                    TolenPrint(array);
+                }
+                else if (a == "0")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Попробуйте ещё раз.");
+                }
+            }
+            return array;
+        }
+        static void Menu3(Array array1, Array array2)
+        {
+            while (true)
+            {
+                Console.WriteLine("Введите данные с экрана:");
+                Console.WriteLine("1-Пересечение массивов.");
+                Console.WriteLine("2-Объединение массивов.");
+                Console.WriteLine("3-Поэлементное сцепление массивов.");
+                Console.WriteLine("0-вернуться в начальное меню.");
+                string a = Console.ReadLine();
+                if (a == "1")
+                {
+                    Intersection(array1, array2);
+                }
+                else if (a == "2")
+                {
+                    Union(array1, array2);
+                }
+                else if (a == "3")
+                {
+                    Clutch(array1, array2);
+                }
+                else if (a == "0")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Попробуйте ещё раз.");
+                }
+            }
+        }
 
-                if (a == 1)
+        static void Menu()
+        {
+            while (true)
+            {
+                Console.WriteLine("Введите данные с экрана:");
+                Console.WriteLine("1-Cоздать первый массив.");
+                Console.WriteLine("Выход-закончить выполнение программы.");
+                string a = Console.ReadLine();
+                if (a == "1")
                 {
-                    massivs Massiv1 = new massivs();
-                    Massiv1.createmassiv();
+                    Array array1 = new Array();
+                    array1 =Menu1();
                     Console.WriteLine("Вы создали первый массив");
-                    massiv1_print(Massiv1);
-                    return Massiv1;
+                    Console.WriteLine("Введите данные с экрана:");
+                    Console.WriteLine("1-Создать второй массив.");
+                    Console.WriteLine("0-вернуться в начальное меню.");
+                    a = Console.ReadLine();
+                    if (a == "1")
+                    {
+                        Array array2 = new Array();
+                        array2=Menu2();
+                        Console.WriteLine("Вы создали второй массив.");
+                        while (true)
+                        {
+                            Console.WriteLine("Введите данные с экрана:");
+                            Console.WriteLine("1-перейти в следущее меню.");
+                            Console.WriteLine("0-вернуться в предыдущее меню,чтобы пересоздать второй массив.");
+                            Console.WriteLine("-1-вернуться в начальное меню.");
+                            a = Console.ReadLine();
+                            if (a == "1")
+                            {
+                                Menu3(array1, array2);
+                                break;
+                            }
+                            else if (a == "0")
+                            {
+                                array2=Menu2();
+                                Console.WriteLine("Вы пересоздали второй массив.");
+                            }
+                            else if (a == "-1")
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Попробуйте ещё раз.");
+                            }
+                        }                        
+                    }
+                    else if (a == "0")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Попробуйте ещё раз.");
+                    }
                 }
-                if (a == 0)
+                else if (a == "Выход")
                 {
-                    return null;
+                    Console.WriteLine("Конец программы.");
+                    break;
                 }
-                if (a!=0 & a!=1)
+                else
                 {
-                    return massiv1();
+                    Console.WriteLine("Попробуйте ещё раз");
                 }
             }
-            catch(FormatException)
-            {
-                Console.WriteLine("Нужно вводить числа с экрана");
-                Console.WriteLine("Введите:");
-                Console.WriteLine("1-Создать массив");
-                Console.WriteLine("0-для выхода из программы");
-                return massiv1();
-            }
-            return null;
         }
-        static massivs massiv1_print(massivs Massiv1)
+        public void Program()
         {
-            try
-            {
-                Console.WriteLine("Нужно вводить числа с экрана");
-                Console.WriteLine("Введите:");
-                Console.WriteLine("1-Вывести весь массив");
-                Console.WriteLine("2-Вывести элемент массива по его индексу");
-                Console.WriteLine("3-Вывести элементы массива по начальной комбинации");
-                Console.WriteLine("4-Создать второй массив");
-                Console.WriteLine("0-возвращение в предыдущее меню");
-                int a = Convert.ToInt32(Console.ReadLine());
-                if (a==1)
-                {
-                    printmassiv(Massiv1);
-                    return massiv1_print(Massiv1);
-                }
-                if (a==2)
-                {
-                    toindexprint(Massiv1);
-                    return massiv1_print(Massiv1);
-                }
-                if (a==3)
-                {
-                    tolenprint(Massiv1);
-                    return massiv1_print(Massiv1);
-                }
-                if (a==4)
-                {
-                    massivs Massiv2 = new massivs();
-                    Massiv2.createmassiv();
-                    Console.WriteLine("Вы создали второй массив");
-                    Massiv12(Massiv1,Massiv2);
-                    return Massiv2;
-                }
-                if(a<0||a>4)
-                {
-                    return massiv1_print(Massiv1);
-                }
-                if(a==0)
-                {
-                    return massiv1();
-                }
-            }
-            catch(FormatException)
-            { 
-                Console.WriteLine("Нужно вводить числа с экрана");
-                Console.WriteLine("Введите:");
-                Console.WriteLine("1-Вывести весь массив");
-                Console.WriteLine("2-Вывести элемент массива по его индексу");
-                Console.WriteLine("3-Вывести элементы массива по начальной комбинации");
-                Console.WriteLine("4-Создать второй массив");
-                Console.WriteLine("0-возвращение в предыдущее меню");
-                return massiv1_print(Massiv1);
-            }
-            return null;
-            
-        }
-        static massivs Massiv12(massivs Massiv1,massivs Massiv2)
-        {
-            try
-            {
-                Console.WriteLine("Нужно вводить числа с экрана");
-                Console.WriteLine("Введите:");
-                Console.WriteLine("1-Вывести весь первый массив");
-                Console.WriteLine("2-Вывести элемент первого массива по его индексу");
-                Console.WriteLine("3-Вывести элементы первого массива по начальной комбинации");
-                Console.WriteLine("4-Вывести весь второй массив");
-                Console.WriteLine("5-Вывести элемент второго массива по его индексу");
-                Console.WriteLine("6-Вывести элементы второго массива по начальной комбинации");
-                Console.WriteLine("7-пересечение двух массивов");
-                Console.WriteLine("8-объединение двух массивов");
-                Console.WriteLine("9-поэлементное сцепление двух массивов");
-                Console.WriteLine("0-возвращение в предыдущее меню");
-                int a = Convert.ToInt32(Console.ReadLine());
-                if (a == 1)
-                {
-                    printmassiv(Massiv1);
-                    return Massiv12(Massiv1, Massiv2);
-                }
-                if (a == 2)
-                {
-                    toindexprint(Massiv1);
-                    return Massiv12(Massiv1, Massiv2);
-                }
-                if (a == 3)
-                {
-                    tolenprint(Massiv1);
-                    return Massiv12(Massiv1, Massiv2);
-                }
-                if (a == 4)
-                {
-                    printmassiv(Massiv2);
-                    return Massiv12( Massiv1, Massiv2);
-                }
-                if (a == 5)
-                {
-                    toindexprint(Massiv2);
-                    return Massiv12(Massiv1, Massiv2);
-                }
-                if (a == 6)
-                {
-                    tolenprint(Massiv2);
-                    return Massiv12( Massiv1, Massiv2);
-                }
-                if(a==7)
-                {
-                    intersection(Massiv1, Massiv2);
-                    return Massiv12(Massiv1, Massiv2);
-                }
-                if(a==8)
-                {
-                    union(Massiv1, Massiv2);
-                    return Massiv12(Massiv1, Massiv2);
-                }
-                if (a==9)
-                {
-                    clutch(Massiv1, Massiv2);
-                    return Massiv12(Massiv1, Massiv2);
-                }
-                if(a<0||a>9)
-                {
-                    return Massiv12(Massiv1, Massiv2);
-                }
-                if (a == 0)
-                {
-                    return massiv1_print(Massiv1);
-                }
-            }
-            catch(FormatException)
-            {
-                Console.WriteLine("Нужно вводить числа с экрана");
-                Console.WriteLine("Введите:");
-                Console.WriteLine("1-Вывести весь первый массив");
-                Console.WriteLine("2-Вывести элемент первого массива по его индексу");
-                Console.WriteLine("3-Вывести элементы первого массива по начальной комбинации");
-                Console.WriteLine("4-Вывести весь второй массив");
-                Console.WriteLine("5-Вывести элемент второго массива по его индексу");
-                Console.WriteLine("6-Вывести элементы второго массива по начальной комбинации");
-                Console.WriteLine("7-пересечение двух массивов");
-                Console.WriteLine("8-объединение двух массивов");
-                Console.WriteLine("9-поэлементное сцепление двух массивов");
-                Console.WriteLine("0-возвращение в предыдущее меню");
-                return Massiv12(Massiv1, Massiv2);
-            }
-            return null;
-        }
-        public string menu()
-        {
-            massiv1();
-            return null;
+            Menu();
         }
     }
-    public class Lab1
+    public class Program
     {
-
         static void Main()
         {
-            massivs Massiv = new massivs();
-            Massiv.menu();
+            Array array = new Array();
+            array.Program();
         }
-        
-    }
+    }    
 }
+
+        
