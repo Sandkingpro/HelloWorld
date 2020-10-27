@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using System.Xml.Serialization;
 using Lab3;
-
+//Variant 3
 namespace Lab3
 {
     [XmlInclude(typeof(Rectangle))]
