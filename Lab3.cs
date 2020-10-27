@@ -19,7 +19,7 @@ namespace Lab3
     {
         public int x;
         public int y;
-        public int radius;//радиус фигуры(если это эллипс или круг.)
+        public int radius;//радиус фигуры(если это круг)
         public int a;//сторона квадрата,прямоугольника или полуось эллипса.
         public int b;//сторона прямоугольника или полуось эллипса.
         public double thickness;
