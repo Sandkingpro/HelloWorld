@@ -85,6 +85,7 @@ namespace Lab4
                 if (urls[i].StartsWith("<img alt"))
                 {
                     webpage.img = urls[i].Substring(urls[i].IndexOf("src=") + 5);
+                    Notify?.Invoke(webpage);
                     string a = urls[i].Substring(urls[i].IndexOf("alt=") + 4);
                     if (urls[i].Contains("class"))
                     {
@@ -104,6 +105,7 @@ namespace Lab4
                 {
                     urls[i] = urls[i].Substring(urls[i].IndexOf("src=") + 5);
                     webpage.img = urls[i].Remove(urls[i].IndexOf(" alt"));
+                    Notify?.Invoke(webpage);
                     string a = urls[i].Substring(urls[i].IndexOf("alt=") + 4);
                     webpage.img_label = a.Remove(a.IndexOf("class"));
                     Notify?.Invoke(webpage);
@@ -111,55 +113,7 @@ namespace Lab4
                 else
                 {
                     webpage.img = urls[i].Substring(urls[i].IndexOf("src=") + 5);
-                    webpage.img_label = "";
                     Notify?.Invoke(webpage);
-                }
-                i++;
-            }
-        }
-        public void IMG_LABEL()
-        {
-            WebClient client = new WebClient();
-            page = client.DownloadString(new Uri(uri));
-            var urls_img = Regex.Matches(page, "< *[img][^>]*[src] *= *[\"\']{0,1}([^\"\' >]*)");
-            List<string> urls = new List<string>();//список url всех изображений
-            for (int j = 0; j < urls_img.Count; j++)
-            {
-                if (urls_img[j].Value.StartsWith("<img"))
-                {
-                    urls.Add(urls_img[j].Value);
-                }
-            }
-            int i = 0;
-            while (i < urls.Count)
-            {
-                WebPage webpage = new WebPage();
-                if (urls[i].StartsWith("<img alt"))
-                {
-                    string a = urls[i].Substring(urls[i].IndexOf("alt=") + 4);
-                    if (urls[i].Contains("class"))
-                    {
-                        webpage.img_label = a.Remove(a.IndexOf("class"));
-                    }
-                    else if (urls[i].Contains("border"))
-                    {
-                        webpage.img_label = a.Remove(a.IndexOf("border"));
-                    }
-                    else
-                    {
-                        webpage.img_label = a.Remove(a.IndexOf("src="));
-                    }
-                    Notify?.Invoke(webpage);
-                }
-                else if (urls[i].StartsWith("<img src") & urls[i].Contains("alt"))
-                {
-                    urls[i] = urls[i].Substring(urls[i].IndexOf("src=") + 5);
-                    string a = urls[i].Substring(urls[i].IndexOf("alt=") + 4);
-                    webpage.img_label = a.Remove(a.IndexOf("class"));
-                    Notify?.Invoke(webpage);
-                }
-                else
-                {
                     webpage.img_label = "";
                     Notify?.Invoke(webpage);
                 }
@@ -179,8 +133,6 @@ namespace Lab4
             parser1.Parsing();
             parser2.Notify += DisplayImg;
             parser2.IMG_URl();
-            parser3.Notify += DisplayImgLabel;
-            parser3.IMG_LABEL(); 
         }
         private static void DisplayMessage(WebPage webpage)
         {
@@ -196,19 +148,16 @@ namespace Lab4
         private static void DisplayImg(WebPage webpage)
         {
             var file = "D:\\clients.csv";
-            Console.WriteLine("URl изображения:{0}",webpage.img);
-            using (StreamWriter streamWriter = new StreamWriter(file, true, Encoding.Default))
+            if(webpage.img_label!=null)
             {
-                streamWriter.WriteLine(webpage.img);
+                Console.WriteLine("URl изображения:{0};Подпись к URl изображения:{1}", webpage.img,webpage.img_label);
             }
-        }
-        private static void DisplayImgLabel(WebPage webpage)
-        {
-            var file = "D:\\clients.csv";
-            Console.WriteLine("Подпись к ссылке изображения:{0}",webpage.img_label);
             using (StreamWriter streamWriter = new StreamWriter(file, true, Encoding.Default))
             {
-                streamWriter.WriteLine(webpage.img_label);
+                if(webpage.img_label!=null)
+                {
+                    streamWriter.WriteLine(webpage.img + ":" + webpage.img_label);
+                } 
             }
         }
     }
