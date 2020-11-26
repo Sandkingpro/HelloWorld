@@ -128,7 +128,6 @@ namespace Lab4
             File.Delete("D:\\clients.csv");
             Parser parser1 = new Parser();
             Parser parser2 = new Parser();
-            Parser parser3 = new Parser();
             parser1.Notify += DisplayMessage;
             parser1.Parsing();
             parser2.Notify += DisplayImg;
